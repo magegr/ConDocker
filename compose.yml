@@ -1,0 +1,69 @@
+services: 
+
+  db: 
+
+    image: magegr/mi_cine:v1 
+
+    container_name: contenedorMiCine 
+
+    ports: 
+
+      - "3306:3306" 
+
+    networks: 
+
+      - mi-red 
+
+ 
+
+  app: 
+
+    image: magegr/mi_app_cine:v1 
+
+    container_name: contenedorMiApp 
+
+    ports: 
+
+      - "8080:80" 
+
+    depends_on: 
+
+      - db 
+
+    networks: 
+
+      - mi-red 
+
+ 
+
+  phpmyadmin: 
+
+    image: phpmyadmin/phpmyadmin:latest 
+
+    container_name: contenedorPhpMyAdmin 
+
+    environment: 
+
+      PMA_HOST: db 
+
+      MYSQL_ROOT_PASSWORD: contrasenyaRoot 
+
+    ports: 
+
+      - "8081:80" 
+
+    depends_on: 
+
+      - db 
+
+    networks: 
+
+      - mi-red 
+
+ 
+
+networks: 
+
+  mi-red: 
+
+    driver: bridge 
